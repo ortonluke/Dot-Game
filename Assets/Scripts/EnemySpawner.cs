@@ -25,9 +25,17 @@ public class EnemySpawner : MonoBehaviour
         
     }
 
-    GameObject SpawnEnemy()
+    private List<float> usedAngles = new List<float>();
+    [SerializeField] private float minAngleDistance;
+
+    GameObject SpawnEnemy(int index, int total)
     {
-        float angle = UnityEngine.Random.Range(0f, Mathf.PI * 2f); // radians
+        float step = (Mathf.PI * 2f) / total;
+
+        float angle = index * step;
+
+        // small randomness inside slot
+        angle += UnityEngine.Random.Range(-step * 0.3f, step * 0.3f);
 
         float x = Mathf.Cos(angle) * radius;
         float y = Mathf.Sin(angle) * radius;
@@ -39,8 +47,7 @@ public class EnemySpawner : MonoBehaviour
     {
         for (int i = 0; i < enemyCount; i++)
         {
-            Debug.Log("Spawning Enemy: " + i);
-            enemies.Add(SpawnEnemy());
+            enemies.Add(SpawnEnemy(i, enemyCount));
         }
     }
 
