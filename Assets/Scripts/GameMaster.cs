@@ -45,5 +45,9 @@ public class GameMaster : MonoBehaviour
         {
             eSpawner.StartWave(waveNum);
         }
+        else
+        {
+            eSpawner.StopWave();
+        }
     }
 }

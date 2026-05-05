@@ -8,7 +8,7 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private GameObject EnemyPrefab;
-    private List<GameObject> enemies;
+    private List<GameObject> enemies = new List<GameObject>();
     [SerializeField] private float radius;
     private GameMaster gm;
      
@@ -40,8 +40,15 @@ public class EnemySpawner : MonoBehaviour
         for (int i = 0; i < enemyCount; i++)
         {
             Debug.Log("Spawning Enemy: " + i);
-            //enemies.Add(SpawnEnemy());
-            SpawnEnemy();
+            enemies.Add(SpawnEnemy());
+        }
+    }
+
+    public void StopWave()
+    {
+        foreach (GameObject enemy in enemies)
+        {
+            Destroy(enemy);
         }
     }
 }
