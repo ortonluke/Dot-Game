@@ -15,6 +15,7 @@ public class GameMaster : MonoBehaviour
     [SerializeField] EnemySpawner eSpawner;
 
     [SerializeField] TextMeshProUGUI startGameText;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

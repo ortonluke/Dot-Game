@@ -6,6 +6,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private GameObject laserPrefab;
     private GameObject laser;
     [SerializeField] private float initWaitTime;
+    [SerializeField] private float flyTime;
     [SerializeField] private float speed;
     private bool isActive = false;
 
@@ -17,22 +18,29 @@ public class Enemy : MonoBehaviour
         // Create Laser
         laser = Instantiate(laserPrefab, transform);
         laser.transform.localPosition = new Vector2(0, 10.75f);
-
-        StartCoroutine(ActivateAfterDelay());
     }
 
-    IEnumerator ActivateAfterDelay()
+    public void SendLaser()
     {
-        yield return new WaitForSeconds(initWaitTime);
+        Debug.Log("Firing Laser");
         Destroy(laser);
         isActive = true;
+        StartCoroutine(Flying());
+    }
+
+    IEnumerator Flying()
+    {
+        yield return new WaitForSeconds(flyTime);
+
+        // Stop
+        Destroy(gameObject);
     }
     
     // Update is called once per frame
     void Update()
     {
         if (!isActive) return;
-        transform.Translate(transform.up * speed * Time.deltaTime, Space.World); // right = forward
+        transform.Translate(transform.up * speed * Time.deltaTime, Space.World); // up = forward
     }
 
 

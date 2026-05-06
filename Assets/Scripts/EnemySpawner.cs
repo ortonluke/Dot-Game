@@ -14,6 +14,8 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float angleVariation;
     private GameMaster gm;
     private Transform player;
+    [SerializeField] private float waveDelay;
+
      
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -53,6 +55,12 @@ public class EnemySpawner : MonoBehaviour
         {
             enemies.Add(SpawnEnemy(i, enemyCount));
         }
+    }
+
+    IEnumerator NextWave()
+    {
+        yield return new WaitForSeconds(waveDelay);
+        
     }
 
     public void StopWave()
