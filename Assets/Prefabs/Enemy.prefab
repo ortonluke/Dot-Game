@@ -105,6 +105,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   laserPrefab: {fileID: 490741099185352853, guid: 4d654cca9619d498286222ea19ed4296, type: 3}
-  initWaitTime: 1
-  flyTime: 5
+  initWaitTime: 0.1
   speed: 20

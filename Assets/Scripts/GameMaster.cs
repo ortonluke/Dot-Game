@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -6,7 +7,8 @@ using UnityEngine.InputSystem;
 
 public class GameMaster : MonoBehaviour
 {
-    public Boolean GamePlaying;
+    public bool GamePlaying = false;
+    public bool activeWaveSetup = true;
     public int waveNum;
     [SerializeField] private int waveStart;
 
@@ -20,7 +22,7 @@ public class GameMaster : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        GamePlaying = false;
+        
     }
 
     // Update is called once per frame
@@ -30,6 +32,14 @@ public class GameMaster : MonoBehaviour
         {
             ToggleGame();
         }
+
+        /*
+        if (eSpawner.enemies.Count == 0 && GamePlaying && !activeWaveSetup)
+        {
+            activeWaveSetup = true;
+            StartCoroutine(NextWave());
+        }
+        */
     }
 
     void ToggleGame()
@@ -51,5 +61,12 @@ public class GameMaster : MonoBehaviour
         {
             eSpawner.StopWave();
         }
+    }
+
+    public IEnumerator NextWave()
+    {
+        yield return new WaitForSeconds(waveDelay);
+        waveNum++;
+        eSpawner.StartWave(waveNum);
     }
 }

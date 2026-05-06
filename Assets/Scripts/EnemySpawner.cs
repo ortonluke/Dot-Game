@@ -1,19 +1,23 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private GameObject EnemyPrefab;
-    private List<GameObject> enemies = new List<GameObject>();
+    public List<GameObject> enemies = new List<GameObject>();
     [SerializeField] private float radius;
     [SerializeField] private float angleVariation;
     private Transform player;
     [SerializeField] private float minSpawnDelay;
     [SerializeField] private float maxSpawnDelay; 
+
+    private GameMaster gm;
 
     private int enemyCount;
 
@@ -21,12 +25,33 @@ public class EnemySpawner : MonoBehaviour
     void Start()
     {
         player = FindAnyObjectByType<Player>().GetComponent<Transform>();
+        gm = FindAnyObjectByType<GameMaster>().GetComponent<GameMaster>();
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public void StartWave(int count)
+    {
+        enemyCount = count;
+
+        // Spawn Enemies
+        for (int i = 0; i < enemyCount; i++)
+        {
+            StartCoroutine(spawnTimer(i));
+        }
+
+        gm.activeWaveSetup = false;
+    }
+
+    IEnumerator spawnTimer(int index)
+    {
+        float spawnDelay = UnityEngine.Random.Range(minSpawnDelay, maxSpawnDelay);
+        yield return new WaitForSeconds(spawnDelay);
+        enemies.Add(SpawnEnemy(index));
     }
 
     GameObject SpawnEnemy(int index)
@@ -43,31 +68,14 @@ public class EnemySpawner : MonoBehaviour
         return Instantiate(EnemyPrefab, spawnPos, rot);
     }
 
-    public void StartWave(int count)
-    {
-        enemyCount = count;
-
-        // Spawn Enemies
-        for (int i = 0; i < enemyCount; i++)
-        {
-
-            StartCoroutine(spawnTimer(i));
-        }
-    }
-
-    IEnumerator spawnTimer(int index)
-    {
-        float spawnDelay = UnityEngine.Random.Range(minSpawnDelay, maxSpawnDelay);
-        yield return new WaitForSeconds(spawnDelay);
-        enemies.Add(SpawnEnemy(index));
-    }
-
     public void StopWave()
     {
         foreach (GameObject enemy in enemies)
         {
             Destroy(enemy);
         }
+
+        enemies.Clear();
     }
 
     private Vector2 getSpawnPos(int index)
