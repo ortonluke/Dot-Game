@@ -6,6 +6,8 @@ public class Player : MonoBehaviour
 
     private GameMaster gm;
 
+    [SerializeField] bool resetPosition;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -26,7 +28,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-            transform.position = new Vector2 (0, 0);
+            if (resetPosition) transform.position = new Vector2 (0, 0);
         }
     }
 }
