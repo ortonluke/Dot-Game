@@ -899,6 +899,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5057186321005367098, guid: 8c4d4a1d9a4fd4cee8d0599b393d14f8, type: 3}
     - target: {fileID: 4979671085013501081, guid: d1e61bffea32d47cfa5ed1660c141822, type: 3}
+      propertyPath: maxSpawnDelay
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4979671085013501081, guid: d1e61bffea32d47cfa5ed1660c141822, type: 3}
+      propertyPath: minSpawnDelay
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4979671085013501081, guid: d1e61bffea32d47cfa5ed1660c141822, type: 3}
       propertyPath: angleVariation
       value: 5
       objectReference: {fileID: 0}

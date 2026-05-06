@@ -22,7 +22,6 @@ public class Enemy : MonoBehaviour
 
     public void SendLaser()
     {
-        Debug.Log("Firing Laser");
         Destroy(laser);
         isActive = true;
         StartCoroutine(Flying());

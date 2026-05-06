@@ -9,6 +9,7 @@ public class GameMaster : MonoBehaviour
     public Boolean GamePlaying;
     public int waveNum;
     [SerializeField] private int waveStart;
+
     [SerializeField] private float waveDelay;
 
     [SerializeField] GameObject player;

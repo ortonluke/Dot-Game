@@ -8,20 +8,18 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private GameObject EnemyPrefab;
-    [SerializeField] private int maxSpawn;
     private List<GameObject> enemies = new List<GameObject>();
     [SerializeField] private float radius;
     [SerializeField] private float angleVariation;
-    private GameMaster gm;
     private Transform player;
-    [SerializeField] private float waveDelay;
+    [SerializeField] private float minSpawnDelay;
+    [SerializeField] private float maxSpawnDelay; 
 
-     
+    private int enemyCount;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        gm = FindAnyObjectByType<GameMaster>();
         player = FindAnyObjectByType<Player>().GetComponent<Transform>();
     }
 
@@ -31,12 +29,9 @@ public class EnemySpawner : MonoBehaviour
         
     }
 
-    private List<float> usedAngles = new List<float>();
-    [SerializeField] private float minAngleDistance;
-
-    GameObject SpawnEnemy(int index, int total)
+    GameObject SpawnEnemy(int index)
     {
-        Vector2 spawnPos = getSpawnPos(index, total);
+        Vector2 spawnPos = getSpawnPos(index);
 
         // calculate rotation
         Vector2 dirToPlayer = ((Vector2)player.position - spawnPos).normalized;
@@ -48,19 +43,23 @@ public class EnemySpawner : MonoBehaviour
         return Instantiate(EnemyPrefab, spawnPos, rot);
     }
 
-    public void StartWave(int enemyCount)
+    public void StartWave(int count)
     {
+        enemyCount = count;
+
         // Spawn Enemies
         for (int i = 0; i < enemyCount; i++)
         {
-            enemies.Add(SpawnEnemy(i, enemyCount));
+
+            StartCoroutine(spawnTimer(i));
         }
     }
 
-    IEnumerator NextWave()
+    IEnumerator spawnTimer(int index)
     {
-        yield return new WaitForSeconds(waveDelay);
-        
+        float spawnDelay = UnityEngine.Random.Range(minSpawnDelay, maxSpawnDelay);
+        yield return new WaitForSeconds(spawnDelay);
+        enemies.Add(SpawnEnemy(index));
     }
 
     public void StopWave()
@@ -71,9 +70,9 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    private Vector2 getSpawnPos(int index, int total)
+    private Vector2 getSpawnPos(int index)
     {
-        float step = (Mathf.PI * 2f) / total;
+        float step = Mathf.PI * 2f / enemyCount;
 
         float angle = index * step;
 

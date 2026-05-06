@@ -12,7 +12,6 @@ public class Laser : MonoBehaviour
 
     void Fire()
     {
-        Debug.Log("Fire");
         enemy.SendLaser();
     }
 }
